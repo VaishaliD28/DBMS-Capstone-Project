@@ -1,0 +1,265 @@
+{
+  "info": {
+    "name": "Job & Internship Management System - DBMS Capstone API",
+    "_postman_id": "c1f7a4e2-9b21-4f32-8e12-jobintern2026",
+    "description": "Comprehensive Postman Collection covering all REST API endpoints for Student, Recruiter, and Admin roles in the Job & Internship Management System.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api",
+      "type": "string"
+    },
+    {
+      "key": "studentToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "recruiterToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login - Student (Aarav Sharma)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"aarav.sharma@student.edu\",\n  \"password\": \"student123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login - Recruiter (Google India)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"recruiter.google@placement.edu\",\n  \"password\": \"recruiter123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login - Admin (Placement Cell)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@placement.edu\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Get Authenticated User Profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Student APIs",
+      "item": [
+        {
+          "name": "Get Student Profile & Stats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/students/profile", "host": ["{{baseUrl}}"], "path": ["students", "profile"] }
+          }
+        },
+        {
+          "name": "Update Student Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Aarav Sharma\",\n  \"phone\": \"+91 9100010001\",\n  \"department\": \"Computer Science and Engineering\",\n  \"cgpa\": 9.50,\n  \"graduationYear\": 2025,\n  \"bio\": \"Updated bio: Cloud engineer & Full stack developer.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/students/profile", "host": ["{{baseUrl}}"], "path": ["students", "profile"] }
+          }
+        },
+        {
+          "name": "Get Student Skills",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/students/skills", "host": ["{{baseUrl}}"], "path": ["students", "skills"] }
+          }
+        },
+        {
+          "name": "Check Eligibility & Smart Skill Match",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/students/eligibility/1", "host": ["{{baseUrl}}"], "path": ["students", "eligibility", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Opportunities (Jobs & Internships)",
+      "item": [
+        {
+          "name": "Browse Opportunities (Filtered)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/opportunities?status=approved&type=job", "host": ["{{baseUrl}}"], "path": ["opportunities"], "query": [{ "key": "status", "value": "approved" }, { "key": "type", "value": "job" }] }
+          }
+        },
+        {
+          "name": "Get Single Opportunity Details",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/opportunities/1", "host": ["{{baseUrl}}"], "path": ["opportunities", "1"] }
+          }
+        },
+        {
+          "name": "Create New Opportunity (Recruiter)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{recruiterToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Backend Software Engineer\",\n  \"type\": \"job\",\n  \"category\": \"Software Development\",\n  \"description\": \"Build scalable distributed systems and RESTful APIs.\",\n  \"requirements\": \"Proficiency in Node.js, Express, MySQL, Docker.\",\n  \"location\": \"Bangalore, Karnataka\",\n  \"workMode\": \"Hybrid\",\n  \"minCgpa\": 8.0,\n  \"allowedGraduationYear\": 2025,\n  \"salaryOrStipend\": \"₹ 22,00,000 - ₹ 26,00,000 PA\",\n  \"openingsCount\": 4,\n  \"deadline\": \"2026-12-31\",\n  \"skillIds\": [1, 7, 8, 12]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/opportunities", "host": ["{{baseUrl}}"], "path": ["opportunities"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Applications Workflow",
+      "item": [
+        {
+          "name": "Apply for Opportunity (Student)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"opportunityId\": 2,\n  \"coverLetter\": \"Excited to apply for Google Cloud Intern.\",\n  \"resumeUrl\": \"/uploads/sample-resume.pdf\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/applications/apply", "host": ["{{baseUrl}}"], "path": ["applications", "apply"] }
+          }
+        },
+        {
+          "name": "Get My Applications (Student)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/applications/my-applications", "host": ["{{baseUrl}}"], "path": ["applications", "my-applications"] }
+          }
+        },
+        {
+          "name": "Get Application Details & Timeline History",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/applications/1", "host": ["{{baseUrl}}"], "path": ["applications", "1"] }
+          }
+        },
+        {
+          "name": "Get Applicants for Opportunity (Recruiter)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{recruiterToken}}" }],
+            "url": { "raw": "{{baseUrl}}/applications/opportunity/1?sortBy=match", "host": ["{{baseUrl}}"], "path": ["applications", "opportunity", "1"] }
+          }
+        },
+        {
+          "name": "Update Application Status & Remarks (Recruiter)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{recruiterToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Interview\",\n  \"remarks\": \"Selected for Round 2 Technical System Design Interview.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/applications/1/status", "host": ["{{baseUrl}}"], "path": ["applications", "1", "status"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Placement Admin & DBMS Showcase",
+      "item": [
+        {
+          "name": "Get Admin KPI Metrics",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/dashboard-stats", "host": ["{{baseUrl}}"], "path": ["admin", "dashboard-stats"] }
+          }
+        },
+        {
+          "name": "Get Placement Analytics Charts Data",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/placement-analytics", "host": ["{{baseUrl}}"], "path": ["admin", "placement-analytics"] }
+          }
+        },
+        {
+          "name": "DBMS Showcase: INNER JOIN",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics-showcase/inner-join", "host": ["{{baseUrl}}"], "path": ["admin", "analytics-showcase", "inner-join"] }
+          }
+        },
+        {
+          "name": "DBMS Showcase: GROUP BY & HAVING",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics-showcase/group-having", "host": ["{{baseUrl}}"], "path": ["admin", "analytics-showcase", "group-having"] }
+          }
+        },
+        {
+          "name": "DBMS Showcase: Subquery",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics-showcase/subquery", "host": ["{{baseUrl}}"], "path": ["admin", "analytics-showcase", "subquery"] }
+          }
+        }
+      ]
+    }
+  ]
+}
